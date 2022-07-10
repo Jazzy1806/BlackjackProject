@@ -1,6 +1,6 @@
 package com.skilldistillery.blackjack.entities;
 
-public class Dealer extends Player implements PlayerActions{
+public class Dealer extends Player{
 	
 	public Dealer(String name) {
 		super(name);
@@ -11,19 +11,8 @@ public class Dealer extends Player implements PlayerActions{
 		deck.dealCards(hand, numberOfCards);
 	}
 
-	public void hit(Deck deck) {
-		hand.addCard(deck.dealCard());
-	}
-
+	@Override
 	public void stay() {
 		System.out.println("Dealer has opted to stay.\n");
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public Hand getHand() {
-		return hand;
 	}
 }

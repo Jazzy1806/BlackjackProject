@@ -5,25 +5,16 @@ public enum Rank {
 	NINE(9), TEN(10), JACK(10), QUEEN(10), KING(10), ACE(11);
 	
 	private int rank;
-	private int alternate;
 	
 	Rank(int rank) {
 		this.rank = rank;
-		this.alternate = rank;
 	}
-
-	Rank(int rank, int alternate) {
-		this.rank = rank;
-		this.alternate = alternate;
-	}
-	
 	
 	public int getValue() {
 		return rank;
 	}
-	
-//	public String toString() {
-//		return "" + rank;
-//	}
-}
 
+	public int getAlternateValue() {
+		return rank;
+	}
+}

@@ -1,7 +1,7 @@
 package com.skilldistillery.blackjack.entities;
 
-public class Player implements PlayerActions{
-	protected Hand hand;
+public class Player {
+	protected BlackjackHand hand;
 	protected String name;
 
 	
@@ -22,7 +22,7 @@ public class Player implements PlayerActions{
 		return name;
 	}
 	
-	public Hand getHand() {
+	public BlackjackHand getHand() {
 		return hand;
 	}
 }
