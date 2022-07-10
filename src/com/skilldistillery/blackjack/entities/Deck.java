@@ -15,16 +15,27 @@ public class Deck {
 		}
 	}
 	
-	public int checkDeckSize() {
+	public int deckSize() {
 		return deck.size();
 	}
 	
-	public Card dealCard () {
+	public Card dealCard() {
 		return deck.remove(0);
+	}
+
+	public void dealCards(Hand hand, int numberOfCards) {
+		for (int i = 0; i < numberOfCards; i++) {
+		hand.addCard(deck.remove(0));
+		}
 	}
 	
 	public void shuffle() {
 		Collections.shuffle(deck);
 	}
 	
+	public void showDeck() {
+		for (Card card : deck) {
+			System.out.println(card);
+		}
+	}
 }
