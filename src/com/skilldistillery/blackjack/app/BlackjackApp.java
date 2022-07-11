@@ -31,7 +31,7 @@ public class BlackjackApp {
 			players.put(player2, player2.getHand());
 			
 			dealer.dealCards(shoe, dealer.getHand(), 2);
-//			Comment out line 36 and uncomment this section to test softValue functionality
+//			Comment out line 33 and uncomment this section to test softValue functionality
 //			Card ace1 = new Card(Suit.valueOf("HEARTS"), Rank.valueOf("ACE"));
 //			Card ace2 = new Card(Suit.valueOf("DIAMONDS"), Rank.valueOf("ACE"));
 //			Card ace3 = new Card(Suit.valueOf("CLUBS"), Rank.valueOf("ACE"));
