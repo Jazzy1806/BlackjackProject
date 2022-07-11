@@ -7,7 +7,7 @@ public class Dealer extends Player{
 		super.hand = new BlackjackHand();
 	}
 
-	public void dealCards(Deck deck, Hand hand, int numberOfCards) {
+	public void dealCards(Deck deck, BlackjackHand hand, int numberOfCards) {
 		deck.dealCards(hand, numberOfCards);
 	}
 

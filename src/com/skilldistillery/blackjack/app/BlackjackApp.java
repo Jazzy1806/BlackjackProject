@@ -4,7 +4,6 @@ import java.util.*;
 
 import com.skilldistillery.blackjack.entities.BlackjackHand;
 import com.skilldistillery.blackjack.entities.Deck;
-import com.skilldistillery.blackjack.entities.Hand;
 import com.skilldistillery.blackjack.entities.Dealer;
 import com.skilldistillery.blackjack.entities.Player;
 
@@ -32,10 +31,23 @@ public class BlackjackApp {
 			players.put(player2, player2.getHand());
 			
 			dealer.dealCards(shoe, dealer.getHand(), 2);
+//			Comment out line 36 and uncomment this section to test softValue functionality
+//			Card ace1 = new Card(Suit.valueOf("HEARTS"), Rank.valueOf("ACE"));
+//			Card ace2 = new Card(Suit.valueOf("DIAMONDS"), Rank.valueOf("ACE"));
+//			Card ace3 = new Card(Suit.valueOf("CLUBS"), Rank.valueOf("ACE"));
+//			Card ace4 = new Card(Suit.valueOf("SPADES"), Rank.valueOf("ACE"));
+//			dealer.getHand().addCard(ace1);
+//			dealer.getHand().addCard(ace2);
+//			dealer.getHand().addCard(ace3);
+//			dealer.getHand().addCard(ace4);
+//			shoe.dealCard(ace1);
+//			shoe.dealCard(ace2);
+//			shoe.dealCard(ace3);
+//			shoe.dealCard(ace4);
 			BlackjackHand dealerHand = dealer.getHand();
 			BlackjackHand pHand;
 			dealerHand.displayDealer();
-			int dealerValue = dealerHand.getHandValue();
+			int dealerValue = dealerHand.bestValue();
 
 			Set<Player> playerSet = players.keySet();
 			for (Player player : playerSet) {
@@ -43,18 +55,22 @@ public class BlackjackApp {
 				dealer.dealCards(shoe, pHand, 2);
 			
 				while (shoe.deckSize() > 0) {
-					int handValue = pHand.getHandValue();
+					int handValue = pHand.bestValue();
 					if (pHand.isBust()) {
 						System.out.println("\n" + player.getName() + " hand is a bust: " + handValue);
 						pHand.displayPlayer();
 						break;
 					}
-					else if (pHand.isBlackjack()) {
-						System.out.println("\n" + player.getName() + " has a blackjack!");
+					else if (pHand.isBlackjack() || handValue == 21) {
+						System.out.println("\n" + player.getName() + " hand value is 21!");
 						pHand.displayPlayer();
 						break;
 					}
-					System.out.println("\n" + player.getName() + " hand: " + handValue);
+					else if (pHand.isSoft()) {
+						System.out.println("\n" + player.getName() + " has a soft hand. This hand's value can be any of the following: ");
+						pHand.showValueAlternates();
+					}
+					System.out.println("\n" + player.getName() + "'s hand - best value: " + handValue);
 					pHand.displayPlayer();
 					System.out.println("\nWhat do you want to do?" +
 										"\nHit: type \"hit\"" +
@@ -70,12 +86,16 @@ public class BlackjackApp {
 					} break; 
 				}
 			}
+			if (dealerHand.isSoft()) {
+				System.out.println("\nDealer has a soft hand. This hand's value can be any of the following: ");
+				dealerHand.showValueAlternates();
+			}
 			while (dealerValue < 17) {
-				System.out.println("\nDealer Hand: " + dealerValue);
+				System.out.println("\nDealer Hand - best value: " + dealerValue);
 				dealerHand.displayPlayer();
 				System.out.println("Dealer wants a hit.");
 				dealer.hit(shoe);
-				dealerValue = dealer.getHand().getHandValue();
+				dealerValue = dealer.getHand().bestValue();
 			}
 			System.out.println("\n\nFinal Results:");
 			System.out.println("\nDealer hand value is " + dealerValue);
@@ -88,7 +108,7 @@ public class BlackjackApp {
 			}
 			for (Player player : playerSet) {
 				pHand = player.getHand();
-				int playerValue = pHand.getHandValue();
+				int playerValue = pHand.bestValue();
 				System.out.println("\n" + player.getName() + " hand value is " + playerValue);
 				pHand.displayPlayer();
 				
@@ -98,15 +118,17 @@ public class BlackjackApp {
 				else if (dealerHand.isBust() && pHand.isBust()) {
 					System.out.println(player.getName() + " and the dealer both busted.");
 				}
-				else if (dealerValue == playerValue) {
-					System.out.println("It's a tie! " + player.getName() + " and the dealer both got equal hands.");
-				}
 				else if (dealerHand.isBlackjack() || pHand.isBust() || (playerValue < dealerValue && 
 						!dealerHand.isBust())) {
 					System.out.println(player.getName() + " lost!");
 				}
 				else if (pHand.isBlackjack() || dealerHand.isBust() || dealerValue < playerValue) {
-					System.out.println(player.getName() + " won!");
+					if (pHand.isBlackjack()) {
+						System.out.print(player.getName() + " got a blackjack! ");
+					} 	System.out.println(player.getName() + " won!");
+				}
+				else if (dealerValue == playerValue) {
+					System.out.println("It's a tie! " + player.getName() + " and the dealer both got equal hands.");
 				}
 		}
 		if (shoe.deckSize() == 0 || playAgain) {

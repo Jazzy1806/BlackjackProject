@@ -23,7 +23,11 @@ public class Deck {
 		return deck.remove(0);
 	}
 
-	public void dealCards(Hand hand, int numberOfCards) {
+	public boolean dealCard(Card card) {
+		return deck.remove(card);
+	}
+
+	public void dealCards(BlackjackHand hand, int numberOfCards) {
 		for (int i = 0; i < numberOfCards; i++) {
 		hand.addCard(deck.remove(0));
 		}
